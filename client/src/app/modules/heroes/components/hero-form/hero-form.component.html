@@ -1,0 +1,52 @@
+<h2 class="center">{{isNew ? 'Create' : 'Edit'}} hero</h2>
+<form class="card" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="card-content">
+    <div class="input-field">
+      <input type="text" id="nickName" formControlName="nickName"
+        [ngClass]="{'invalid': form.get('nickName').invalid && form.get('nickName').touched}"
+      />
+      <label for="nickName">Nickname</label>
+      <span
+        class="helper-text red-text"
+        *ngIf="form.get('nickName').invalid && form.get('nickName').touched"
+      >Nickname can't be empty</span>
+    </div>
+    <div class="input-field">
+      <input
+        type="text"
+        id="realName"
+        formControlName="realName"
+        [ngClass]="{'invalid': form.get('realName').invalid && form.get('realName').touched}"
+      />
+      <label for="realName">Real name</label>
+      <span
+        class="helper-text red-text"
+        *ngIf="form.get('realName').invalid && form.get('realName').touched"
+      >Real name can't be empty</span>
+    </div>
+    <div class="input-field">
+      <input
+        type="text"
+        id="originDescription"
+        formControlName="originDescription"
+      />
+      <label for="originDescription">Origin description</label>
+    </div>
+    <div class="input-field">
+      <input type="text" id="superPowers" formControlName="superPowers"/>
+      <label for="superPowers">Super powers</label>
+    </div>
+    <div class="input-field">
+      <input type="text" id="catchPhrase" formControlName="catchPhrase"/>
+      <label for="catchPhrase">Catch phrase</label>
+    </div>
+  </div>
+
+  <div class="card-action">
+    <button
+      type="submit"
+      class="btn"
+      [disabled]="!form.valid"
+    >{{isNew ? 'Create' : 'Save'}}</button>
+  </div>
+</form>
