@@ -8,5 +8,5 @@ export interface HeroInterface {
   originDescription: string,
   superPowers: string,
   catchPhrase: string,
-  images: HeroImageInterface[]
+  image: HeroImageInterface
 }

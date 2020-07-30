@@ -1,1 +1,19 @@
-<p>hero-details works!</p>
+<ng-container *ngIf="(hero$ | async) as hero; else loading">
+  <div class="content">
+    <div class="details">
+      <h1>{{hero.nickName}}</h1>
+      <h4 class="red-text">{{hero.realName}}</h4>
+      <hr>
+      <p *ngIf="hero.originDescription">{{hero.originDescription}}</p>
+      <p *ngIf="hero.superPowers"><b>Super Powers:</b> {{hero.superPowers}}</p>
+      <p *ngIf="hero.catchPhrase"><b>Catch Phrase:</b> {{hero.catchPhrase}}</p>
+    </div>
+    <img class="avatar" [src]="hero.image?.url" [alt]="hero.nickName">
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="progress center">
+    <div class="indeterminate"></div>
+  </div>
+</ng-template>

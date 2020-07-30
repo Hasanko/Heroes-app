@@ -1,35 +1,48 @@
-<ng-container *ngIf="(heroes$ | async) as heroesResponse">
-<div class="row">
-  <div class="col s12 offset-m2 m8 offset-l3 l6" *ngFor="let hero of heroesResponse.heroes">
-    <div class="card">
-      <div class="card-image">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0Lz0UPYEjitv8Sl9hkNu5MNUmM3IiZ-tp9kA3VxfeM8OP0Wz&s">
-      </div>
-      <div class="card-content">
-        <span class="card-title center">{{hero.nickName}}</span>
-      </div>
-      <div class="card-action">
-        <a [routerLink]="hero._id">Show</a>
-        <a [routerLink]="['/edit', hero._id]" class="right">Edit</a>
+<ng-container *ngIf="(heroes$ | async) as heroesResponse; else loading">
+  <div class="div" *ngIf="heroesResponse.heroes.length > 0; else empty">
+    <div class="row">
+      <div class="col s12 offset-m2 m8 offset-l3 l6" *ngFor="let hero of heroesResponse.heroes">
+        <div class="card">
+          <div class="card-image">
+            <img [src]="hero.image?.url">
+          </div>
+          <div class="card-content">
+            <span class="card-title center">{{hero.nickName}}</span>
+          </div>
+          <div class="card-action">
+            <a [routerLink]="hero._id">Show</a>
+            <a [routerLink]="['/edit', hero._id]" class="right">Edit</a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<div class="center">
-  <app-pagination
-    [total]="heroesResponse.count"
-    [url]="baseUrl"
-    [currentPage]="currentPage"
-    [limit]="limit"
-  ></app-pagination>
-</div>
+    <div class="center">
+      <app-pagination
+        [total]="heroesResponse.count"
+        [url]="baseUrl"
+        [currentPage]="currentPage"
+        [limit]="limit"
+      ></app-pagination>
+    </div>
+  </div>
+  <ng-template #empty>
+    <h3 class="center">Heroes list is empty</h3>
+  </ng-template>
+
 <div class="fixed-action-btn">
-  <a class="btn-floating btn-large waves-effect waves-light red" routerLink="/new" >
+  <a class="btn-floating btn-large waves-effect waves-light red" routerLink="/new"
+    [ngClass]="{pulse: heroesResponse.heroes.length === 0}">
     <i class="material-icons">add</i>
   </a>
 </div>
 </ng-container>
+
+<ng-template #loading>
+  <div class="progress center">
+    <div class="indeterminate"></div>
+  </div>
+</ng-template>
 
 
 

@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import {switchMap} from 'rxjs/operators';
-import { of, Subscription } from 'rxjs';
+import { of, Subscription, Observable } from 'rxjs';
 import { Materializecss } from 'src/app/shared/classes/materializecss';
 
 @Component({
@@ -34,7 +34,8 @@ export class HeroFormComponent implements OnInit, OnDestroy {
       realName: new FormControl(null, [Validators.required]),
       originDescription: new FormControl(null),
       superPowers: new FormControl(null),
-      catchPhrase: new FormControl(null)
+      catchPhrase: new FormControl(null),
+      image: new FormControl(null)
     })
 
     this.route.params.pipe(
@@ -55,15 +56,19 @@ export class HeroFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+
+    const { image } = this.form.value
+    let obs$: Observable<HeroInterface>
+
     if(this.isNew) {
-      this.heroesService.create({...this.form.value}).subscribe(() => {
-        this.router.navigate(['/'])
-      })
+      obs$ = this.heroesService.create({...this.form.value, image: { url: image}})
     } else {
-      this.heroesService.update(this.heroId, this.form.value).subscribe(() => {
-        this.router.navigate(['/'])
-      })
+      obs$ = this.heroesService.update(this.heroId, {...this.form.value, image: { url: image}})
     }
+
+    obs$.subscribe(() => {
+      this.router.navigate(['/'])
+    })
   }
 
   removeHero(): void{

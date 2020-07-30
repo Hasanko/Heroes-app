@@ -40,15 +40,17 @@ module.exports.getById = async (req, res) => {
 }
 module.exports.create = async (req, res) => {
 
-  const { nickName, realName, originDescription, superPowers, catchPhrase, images } = req.body
-
+  // const { nickName, realName, originDescription, superPowers, catchPhrase, image } = req.body
+  // const hero = new Hero({
+  //   nickName,
+  //   realName,
+  //   originDescription,
+  //   superPowers,
+  //   catchPhrase,
+  //   image
+  // })
   const hero = new Hero({
-    nickName,
-    realName,
-    originDescription,
-    superPowers,
-    catchPhrase,
-    images
+    ...req.body
   })
 
   try {
@@ -64,14 +66,14 @@ module.exports.update = async (req, res) => {
     if (!hero) {
       return notFoundException(res, `Hero with id ${req.params.id} not found`)
     }
-    const { nickName, realName, originDescription, superPowers, catchPhrase, images } = req.body
+    const { nickName, realName, originDescription, superPowers, catchPhrase, image } = req.body
 
     hero.nickName = nickName
     hero.realName = realName
     hero.originDescription = originDescription
     hero.superPowers = superPowers
     hero.catchPhrase = catchPhrase
-    hero.images = images
+    hero.image = image
 
     await hero.save()
     res.status(200).json(hero)

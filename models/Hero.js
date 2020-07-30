@@ -20,13 +20,11 @@ const heroSchema = new Schema({
   catchPhrase: {
     type: String
   },
-  images: [
-    {
+  image: {
       url: {
         type: String
       }
-    }
-  ]
+  }
 })
 
 module.exports = mongoose.model('heroes', heroSchema)
