@@ -48,5 +48,6 @@
       class="btn"
       [disabled]="!form.valid"
     >{{isNew ? 'Create' : 'Save'}}</button>
+    <button class="btn remove right" type="button" *ngIf="!isNew" (click)="removeHero()">Delete</button>
   </div>
 </form>

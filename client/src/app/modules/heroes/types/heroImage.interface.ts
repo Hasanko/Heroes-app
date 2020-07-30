@@ -1,3 +1,3 @@
 export interface HeroImageInterface {
-  url: String
+  url: string
 }

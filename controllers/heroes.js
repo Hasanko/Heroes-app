@@ -5,8 +5,22 @@ const notFoundException = require('../handlers/notFoundException')
 
 module.exports.getAll = async (req, res) => {
   try {
-    const heroes = await Hero.find()
-    res.status(200).json(heroes)
+    const { offset=0, limit=5 } = req.query
+
+    // const heroes = await Hero.find().skip(page * limit - limit).limit(parseInt(limit,10))
+    // const count = await Hero.find().count()
+
+    const [heroes, count] = await Promise.all([
+      Hero.find().skip(parseInt(offset,10)).limit(parseInt(limit,10)),
+      Hero.find().count()
+    ])
+
+    const response = {
+      heroes,
+      count
+    }
+
+    res.status(200).json(response)
   } catch (ex) {
     internalServerError(res, ex)
   }

@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { LayoutComponent } from './layout.component';
+import { PaginationModule } from '../pagination/pagination.module';
 
 @NgModule({
   declarations: [LayoutComponent],
   imports: [
     CommonModule,
-    RouterModule,
+    RouterModule
   ],
   exports: [LayoutComponent]
 })

@@ -1,10 +1,10 @@
 import { HeroInterface } from './../../types/hero.interface';
 import { HeroesService } from './../../services/heroes.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import {switchMap} from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { Materializecss } from 'src/app/shared/classes/materializecss';
 
 @Component({
@@ -12,9 +12,11 @@ import { Materializecss } from 'src/app/shared/classes/materializecss';
   templateUrl: './hero-form.component.html',
   styleUrls: ['./hero-form.component.scss']
 })
-export class HeroFormComponent implements OnInit {
+export class HeroFormComponent implements OnInit, OnDestroy {
 
-  heroId: String = null;
+  removeSubscription: Subscription
+
+  heroId: string = null;
   isNew: boolean = true
   form: FormGroup
 
@@ -23,6 +25,8 @@ export class HeroFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
   ) { }
+
+
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -61,5 +65,17 @@ export class HeroFormComponent implements OnInit {
       })
     }
   }
+
+  removeHero(): void{
+    this.removeSubscription = this.heroesService.remove(this.heroId).subscribe((hero)=> {
+      this.router.navigate(['/'])
+    })
+  }
+
+  ngOnDestroy(): void {
+    if(this.removeSubscription) {
+       this.removeSubscription.unsubscribe()
+     }
+   }
 
 }
